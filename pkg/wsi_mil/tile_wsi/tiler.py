@@ -36,6 +36,7 @@ class ImageTiler:
                 .path_outputs: str, root of the paths where are stored the outputs.
                 .model_path: str, when using moco tiler.
                 .mask_tolerance: minimum percentage of mask on a tile for selection.
+        TW    mask: used to determine which area of the WSI should be tiled and processed/ ( it exclude the unnecessary area (eg background) )
     """
     def __init__(self, args, make_info=True):
         self.level = args.level # Level to which sample patch.
@@ -97,6 +98,7 @@ class ImageTiler:
         """tile_image.
         Main function of the class. Tiles the WSI and writes the outputs.
         WSI of origin is specified when initializing TileImage.
+        TW: param_tiles:use mask to select tile location
         """
         self.mask_function = self._get_mask_function()
         tiler = getattr(self, self.tiler + '_tiler')
@@ -112,6 +114,7 @@ class ImageTiler:
         Creates and save an image showing the locations of the extracted tiles.
 
         :param param_tiles: list, output of usi.patch_sampling.
+        TW: visualise_cut: overlay the selected tiles on the WSI, check where the tiles were extracted
         """
         import matplotlib as mpl
         import matplotlib.pyplot as plt
